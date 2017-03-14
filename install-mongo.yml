@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - debug: var=ansible_distribution
+    - debug: var=ansible_service_mgr
+    - include: tasks/install-on-ubuntu.yml
+      when: ansible_distribution == "Ubuntu"
+    - name: create mongo data folder
+      file:
+        path: /data/db
+        owner: mongodb
+        group: mongodb
+        state: directory
+    - name: update config 
+      copy:
+        src: files/mongod.conf
+        dest: /etc/mongod.conf
+        mode: 0755
+    - name: restart mongod with new config
+      service:
+        name: mongod
+        state: restarted
+

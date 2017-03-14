@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - debug: var=ansible_distribution
+    - debug: var=ansible_service_mgr
+
+    - name: stop mongod 
+      service:
+        name: mongod
+        state: stopped
+
+    - name: remove mongo files
+      file:
+        state: absent
+        path: /data/db
+
+    - name: re-create mongo data folder
+      file:
+        path: /data/db
+        owner: mongodb
+        group: mongodb
+        state: directory
+
+    - name: restart start mongod
+      service:
+        name: mongod
+        state: started
+
