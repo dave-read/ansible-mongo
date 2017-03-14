@@ -6,6 +6,8 @@
     - debug: var=ansible_service_mgr
     - include: tasks/install-on-ubuntu.yml
       when: ansible_distribution == "Ubuntu"
+    - include: tasks/install-on-rh.yml
+      when: ansible_distribution != "Ubuntu"
     - name: create mongo data folder
       file:
         path: /data/db
