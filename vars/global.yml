@@ -1,0 +1,7 @@
+---
+#
+# repo based distributions create different mongo user names in /etc/passwd
+# Ubuntu: mongodb
+# RedHat/CentOS/OracleLinux: mongod
+#
+mongo_user: "{{ 'mongodb' if ansible_distribution == 'Ubuntu' else 'mongod' }}"

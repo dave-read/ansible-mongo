@@ -1,11 +1,11 @@
 ---
    - name: Add repository
      yum_repository:
-       name: MongoDB Repository
-       description: EPEL YUM repo
+       name: mongodb-org-3.4
+       description: Mongo Repo 
        baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
        gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
        gpgcheck: yes
 
    - name: install packages
-     apt: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
+     package: pkg="{{ install_pkg | default('mongodb-org') }}" state=present

@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: yes
+  vars_files:
+    - vars/global.yml
 
   tasks:
     - debug: var=ansible_distribution
@@ -19,8 +21,8 @@
     - name: re-create mongo data folder
       file:
         path: /data/db
-        owner: mongodb
-        group: mongodb
+        owner: "{{mongo_user}}"
+        group: "{{mongo_user}}"
         state: directory
 
     - name: restart start mongod

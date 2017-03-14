@@ -1,9 +1,12 @@
 ---
 - hosts: all
   become: yes
+  vars_files: 
+    - vars/global.yml
   tasks:
     - debug: var=ansible_distribution
     - debug: var=ansible_service_mgr
+    - debug: var=mongo_user
     - include: tasks/install-on-ubuntu.yml
       when: ansible_distribution == "Ubuntu"
     - include: tasks/install-on-rh.yml
@@ -11,9 +14,10 @@
     - name: create mongo data folder
       file:
         path: /data/db
-        owner: mongodb
-        group: mongodb
+        owner: "{{mongo_user}}"
+        group: "{{mongo_user}}"
         state: directory
+        recurse: yes
     - name: update config 
       copy:
         src: files/mongod.conf
