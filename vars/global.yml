@@ -4,4 +4,5 @@
 # Ubuntu: mongodb
 # RedHat/CentOS/OracleLinux: mongod
 #
-mongo_user: "{{ 'mongodb' if ansible_distribution == 'Ubuntu' else 'mongod' }}"
+mongo_user: "{{ 'mongodb' if ansible_os_family == 'Debian' else 'mongod' }}"
+replication_set_name: rs1

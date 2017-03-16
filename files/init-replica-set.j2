@@ -1,4 +1,37 @@
 rs.initiate( {
-   _id : "rs1",
-   members: [ { _id : 0, host : "vm0:27017","priority" : 10 },{ _id : 1, host : "vm1:27017","priority" : 1 },{ _id : 2, host : "vm2:27017", "priority" : 0,"hidden" : true } ]
+   _id : "{{ replication_set_name }}",
+   members: [
+   {% for vm in groups['servers'] %}
+   { 
+     _id : {{loop.index0}}
+     ,host : "{{ vm }}:27017"
+     {% if hostvars[vm].mongo_priority is defined %}
+     ,priority : {{ hostvars[vm].mongo_priority }}
+     {% endif %}
+     {% if hostvars[vm].mongo_hidden is defined %}
+     ,hidden : {{ hostvars[vm].mongo_hidden }}
+     {% endif %}
+   },
+   {% endfor %}
+   ]
 })
+print("start loop");
+for (i =0;i<=30; i++) {
+   print("start loop.  iteration:"+i);
+   var isMaster=db.isMaster().ismaster;
+   print("isMaster:"+isMaster);
+   if(isMaster === true) {
+     break;
+   }
+   print("start sleep");
+   sleep(1000);
+   print("stop sleep");
+}
+db.createUser(
+  {
+    user: "admin",
+    pwd: "mongo",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" },{ "role" : "clusterAdmin", "db" : "admin" } ]
+  }
+);
+

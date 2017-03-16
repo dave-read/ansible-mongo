@@ -1,0 +1,14 @@
+---
+- hosts: servers[0]
+  become: yes
+  vars_files:
+    - vars/global.yml
+
+  tasks:
+
+    - debug: var=hostvars
+    - name: create replica set initialization
+      template:
+        src: files/init-replica-set.j2
+        dest: /tmp/rs-init.js
+
