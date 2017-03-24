@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: true
+  vars_files:
+    - vars/global.yml
   vars:
     disks: [ '/dev/sdc' ]    
   tasks:
@@ -29,9 +31,9 @@
 
   - name: "mnt"
     file:
-      path: /data/db
-      owner: mongodb
-      group: mongodb
+      path: /data
+      owner: "{{mongo_user}}"
+      group: "{{mongo_user}}"
       state: directory
 
   - name: Get UUID for partition
@@ -44,7 +46,7 @@
     mount:
       name: /data
       fstype: xfs
-      opts: defaults
+      opts: "nobarrier,noatime"
       passno: '0'
       src: 'UUID={{ item.1.stdout }}'
       state: '{{ item.0.mount_state|d("mounted") }}'

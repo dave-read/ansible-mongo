@@ -8,7 +8,7 @@
     - debug: var=ansible_distribution
     - debug: var=ansible_service_mgr
 
-  - include: tasks/install-on-ubuntu.yml
+    - include: tasks/install-on-ubuntu.yml
       vars: 
         install_pkg: mongodb-org-shell 
       when: ansible_os_family == "Debian"

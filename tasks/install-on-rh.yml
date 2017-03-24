@@ -9,3 +9,7 @@
 
    - name: install packages
      package: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
+   - name: disable selinux
+     selinux:
+       policy: targeted
+       state: permissive

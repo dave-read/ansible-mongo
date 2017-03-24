@@ -1,0 +1,11 @@
+---
+#   - debug: var=hostvars
+
+    - name: create replica set initialization
+      template:
+        src: files/init-replica-set.j2
+        dest: /tmp/init-replica-set.js
+    - name: initialize 
+      command: mongo /tmp/init-replica-set.js
+      register: init_result
+    - debug: var=init_result

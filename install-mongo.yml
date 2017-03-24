@@ -6,7 +6,7 @@
   tasks:
     - debug: var=ansible_distribution
     - debug: var=ansible_service_mgr
-    - debug: ansible_os_family
+    - debug: var=ansible_os_family
     - debug: var=mongo_user
 
     - include: tasks/install-on-ubuntu.yml
@@ -33,4 +33,11 @@
       service:
         name: mongod
         state: restarted
+
+- hosts: boot-strap-server
+  become: yes
+  vars_files: 
+    - vars/global.yml
+  tasks:
+    - include: tasks/init-replica-set.yml
 

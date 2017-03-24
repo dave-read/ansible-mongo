@@ -1,1 +1,1 @@
-ansible all -s -a "df -h /data"
+ansible all -s -a "df -h "

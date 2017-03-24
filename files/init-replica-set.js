@@ -1,20 +1,24 @@
 print("starting replica set init ...");
 rs.initiate( {
-   _id : "{{ replication_set_name }}",
+   _id : "rs4",
    members: [
-   {% for vm in groups['servers'] %}
-   { 
-     _id : {{loop.index0}}
-     ,host : "{{ vm }}:27017"
-     {% if hostvars[vm].mongo_priority is defined %}
-     ,priority : {{ hostvars[vm].mongo_priority }}
-     {% endif %}
-     {% if hostvars[vm].mongo_hidden is defined %}
-     ,hidden : {{ hostvars[vm].mongo_hidden }}
-     {% endif %}
-   },
-   {% endfor %}
-   ]
+      { 
+     _id : 0
+     ,host : "vm0:27017"
+          ,priority : 10
+             },
+      { 
+     _id : 1
+     ,host : "vm1:27017"
+          ,priority : 1
+             },
+      { 
+     _id : 2
+     ,host : "vm2:27017"
+          ,priority : 0
+               ,hidden : true
+        },
+      ]
 })
 print("replica set init done");
 rs.status();

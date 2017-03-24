@@ -20,10 +20,14 @@
 
     - name: re-create mongo data folder
       file:
-        path: /data/db
+        path: "{{item}}"
         owner: "{{mongo_user}}"
         group: "{{mongo_user}}"
         state: directory
+        recurse: true
+      with_items:
+        - /data
+        - /data/db
 
     - name: restart start mongod
       service:
