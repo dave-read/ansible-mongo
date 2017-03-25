@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - vars/global.yml
+
+  tasks:
+
+    - name: stop mongod 
+      service:
+        name: mongod
+        state: stopped
+
+    - include: tasks/reset-data-dir.yml 
+
+
+

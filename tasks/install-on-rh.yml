@@ -1,4 +1,9 @@
 ---
+   - name: disable selinux
+     selinux:
+       policy: targeted
+       state: permissive
+
    - name: Add repository
      yum_repository:
        name: mongodb-org-3.4
@@ -7,9 +12,8 @@
        gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
        gpgcheck: yes
 
-   - name: install packages
+   - name: install mongo packages
      package: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
-   - name: disable selinux
-     selinux:
-       policy: targeted
-       state: permissive
+
+   - name: install tree util
+     package: pkg="tree" state=present

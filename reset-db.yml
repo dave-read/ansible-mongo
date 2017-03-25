@@ -5,32 +5,25 @@
     - vars/global.yml
 
   tasks:
-    - debug: var=ansible_distribution
-    - debug: var=ansible_service_mgr
 
     - name: stop mongod 
       service:
         name: mongod
         state: stopped
 
-    - name: remove mongo files
-      file:
-        state: absent
-        path: /data/db
+    - include: tasks/reset-data-dir.yml 
+    - include: tasks/update-config.yml 
 
-    - name: re-create mongo data folder
-      file:
-        path: "{{item}}"
-        owner: "{{mongo_user}}"
-        group: "{{mongo_user}}"
-        state: directory
-        recurse: true
-      with_items:
-        - /data
-        - /data/db
-
-    - name: restart start mongod
+    - name: start mongod
       service:
         name: mongod
         state: started
+
+- hosts: boot-strap-server
+  become: yes
+  vars_files:
+    - vars/global.yml
+  tasks:
+    - include: tasks/init-replica-set.yml
+
 

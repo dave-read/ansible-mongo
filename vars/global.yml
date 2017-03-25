@@ -5,4 +5,5 @@
 # RedHat/CentOS/OracleLinux: mongod
 #
 mongo_user: "{{ 'mongodb' if ansible_os_family == 'Debian' else 'mongod' }}"
-replication_set_name: rs1
+replication_set_name: "rs1"
+data_dir: "/data/db"

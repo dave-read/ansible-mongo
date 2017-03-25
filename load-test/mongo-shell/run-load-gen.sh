@@ -7,15 +7,15 @@
 #   argCollectionName
 #
 read -d '' EVAL_ARG <<"EOS"
-var argConnectDb='sbtest'
-,argDb='sbtest'
+var argConnectDb='admin'
+,argDb='test'
 ,argCollectionName='loadtest'
 ,argHost='vm0'
 ,argTxtLen=1024
 ,argCollectionCount=1
-,argSeconds=31536000
+,argSeconds=600
 ,argDelayMs=10
-,argThreadCount=1
+,argThreadCount=5
 EOS
 EVAL_ARG=$(echo $EVAL_ARG | tr -d '\n\r')
 mongo --nodb --eval "${EVAL_ARG}" load-gen.js

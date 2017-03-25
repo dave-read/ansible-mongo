@@ -1,0 +1,19 @@
+---
+    - debug: msg="data dir:{{data_dir}}"
+
+    - name: remove mongo files
+      file:
+        state: absent
+        path: "{{data_dir}}"
+      register: rm_result
+
+    - debug: msg={{rm_result}}
+
+    - name: re-create mongo data folder
+      file:
+        path: "{{data_dir}}"
+        owner: "{{mongo_user}}"
+        group: "{{mongo_user}}"
+        state: directory
+        recurse: true
+

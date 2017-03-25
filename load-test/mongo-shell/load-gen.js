@@ -34,18 +34,18 @@ if (argCollectionName===undefined) {
    print("ERROR: target collection must be set using argCollectionName")
    exit(1);
 }
-
+print("collectionCount:"+collectionCount)
 for ( i = 1; i<=collectionCount; ++i){
  obj = new Object();
  obj.op="insert"; 
- obj.ns=argDb+"."+argCollectionName+"-"+i;
+ obj.ns=argDb+"."+argCollectionName+"_"+i;
  obj.doc=newDoc;
  obj.showResult=true
  if (argDelayMs!==undefined) { obj.delay=argDelayMs };
  ops.push(obj);
+ print("adding:"+JSON.stringify(obj,null,4));
 }
 
-print("starting ...");
 runParms = new Object();
 
 if (argHost!==undefined) { runParms.host=argHost; }
@@ -56,11 +56,11 @@ runParms.db=argConnectDb;
 runParms.parallel=threadCount;
 runParms.seconds=seconds;
 runParms.hideResults=false;
-
-print(JSON.stringify(runParms,null,4));
 runParms.ops=ops;
+
+print("starting with:"+JSON.stringify(runParms,null,4));
 
 res=benchRun(runParms);
 
-print(JSON.stringify(res,null,4));
+print("done:"+JSON.stringify(res,null,4));
 
