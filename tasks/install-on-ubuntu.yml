@@ -5,5 +5,7 @@
      apt_repository:
         repo: "deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/3.4 multiverse"
         state: present
-   - name: install packages
-     apt: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
+
+   - include: ./common-install.yml   
+#   - name: install packages
+#     apt: pkg="{{ install_pkg | default('mongodb-org') }}" state=present

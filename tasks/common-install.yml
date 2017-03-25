@@ -1,0 +1,7 @@
+---
+
+   - name: install mongo packages
+     package: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
+
+   - name: install tree util
+     package: pkg="tree" state=present

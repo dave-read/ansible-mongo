@@ -2,6 +2,7 @@
 vm0 mongo_priority=10
 vm1 mongo_priority=1
 vm2 mongo_priority=0 mongo_hidden=true
+vm3 mongo_priority=1 
 
 [boot-strap-server]
 vm0

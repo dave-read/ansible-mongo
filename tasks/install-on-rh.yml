@@ -12,8 +12,10 @@
        gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
        gpgcheck: yes
 
-   - name: install mongo packages
-     package: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
+   - include: ./common-install.yml
 
-   - name: install tree util
-     package: pkg="tree" state=present
+#   - name: install mongo packages
+#     package: pkg="{{ install_pkg | default('mongodb-org') }}" state=present
+#
+#   - name: install tree util
+#     package: pkg="tree" state=present
