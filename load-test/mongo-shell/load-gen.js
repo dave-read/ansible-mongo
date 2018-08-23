@@ -1,7 +1,7 @@
 
 
 
-var argTxtLen,argIntRange,argCollectionCount,argSeconds,argThreadCount;
+var argTxtLen,argIntRange,argCollectionCount,argSeconds,argThreadCount,argTTLSeconds;
 var argUsername,argHost,argPassword,argDb,argCollectionName,argConnectDb,argDelayMs
 
 var txtLen = applyDefault(argTxtLen,1024);
@@ -17,7 +17,8 @@ function applyDefault(value,defaultValue) {
 
 var newDoc = { 
     nbr: { "#RAND_INT" : [ 0 , intRange ] },
-    txt: { "#RAND_STRING": [txtLen] }
+    txt: { "#RAND_STRING": [txtLen] },
+    createdAt: { "#CUR_DATE" : [ 0 ] }
 }
 
 var ops = [];
@@ -36,6 +37,10 @@ if (argCollectionName===undefined) {
 }
 print("collectionCount:"+collectionCount)
 for ( i = 1; i<=collectionCount; ++i){
+ if (argTTLSeconds!==undefined) {
+    print("Seeting TTL Index seconds to:"+argTTLSeconds);
+    new Mongo(argHost).getDB(argDb).getCollection(argCollectionName+"_"+i).createIndex({ "createdAt": 1 }, { expireAfterSeconds: argTTLSeconds });
+ }
  obj = new Object();
  obj.op="insert"; 
  obj.ns=argDb+"."+argCollectionName+"_"+i;
